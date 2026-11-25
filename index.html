@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Javob xati generatori — Ta'lim raqamli</title>
+<style>
+  :root { --ink:#1d1d1b; --muted:#6b6b66; --line:#d9d6cf; --bg:#f6f4ef; --accent:#1f5f8b; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:16px 24px; border-bottom:1px solid var(--line); background:#fff; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  header h1 { font-size:18px; margin:0; }
+  header p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+  main { display:grid; grid-template-columns:minmax(300px,420px) 1fr; gap:24px; padding:24px; max-width:1300px; margin:0 auto; }
+  form { background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px; align-self:start; }
+  fieldset { border:none; padding:0; margin:0 0 14px; }
+  legend { font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-bottom:8px; }
+  label { display:block; font-size:13px; margin:8px 0 4px; }
+  input, textarea, select { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:6px; font:inherit; font-size:14px; background:#fff; }
+  textarea { min-height:110px; resize:vertical; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  button { padding:9px 14px; border-radius:6px; border:1px solid var(--accent); background:var(--accent); color:#fff; font:inherit; font-size:14px; cursor:pointer; }
+  button.ghost { background:#fff; color:var(--accent); }
+  .paper { background:#fff; border:1px solid var(--line); box-shadow:0 2px 12px rgba(0,0,0,.06); width:210mm; max-width:100%; min-height:297mm; padding:20mm 15mm 20mm 25mm; font-family:"Times New Roman",Times,serif; font-size:14pt; line-height:1.4; justify-self:center; }
+  .paper .org { text-align:center; font-weight:bold; text-transform:uppercase; border-bottom:2px solid var(--ink); padding-bottom:6px; margin-bottom:4px; white-space:pre-line; }
+  .paper .orgaddr { text-align:center; font-size:10pt; margin-bottom:18px; white-space:pre-line; }
+  .paper .meta { display:flex; justify-content:space-between; font-size:12pt; margin-bottom:18px; }
+  .paper .to { margin-left:50%; margin-bottom:18px; white-space:pre-line; }
+  .paper .body p { text-indent:1.25cm; text-align:justify; margin:0 0 8px; white-space:pre-line; }
+  .paper .sign { display:flex; justify-content:space-between; margin-top:36px; font-weight:bold; }
+  .paper .exec { margin-top:48px; font-size:10pt; white-space:pre-line; }
+  .hint { font-size:12px; color:var(--muted); margin-top:4px; }
+  @media (max-width:900px){ main{ grid-template-columns:1fr; } }
+  @media print {
+    @page { size:A4; margin:0; }
+    body { background:#fff; }
+    header, form { display:none; }
+    main { display:block; padding:0; }
+    .paper { border:none; box-shadow:none; width:auto; min-height:auto; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Javob xati generatori</h1>
+    <p>Ta'lim raqamli · ochiq kodli · ma'lumotlar faqat brauzeringizda saqlanadi</p>
+  </div>
+  <a href="https://github.com/" id="repoLink" style="font-size:13px;color:var(--accent)">GitHub</a>
+</header>
+
+<main>
+<form id="f" autocomplete="off">
+  <fieldset>
+    <legend>Tashkilot</legend>
+    <label for="org">Tashkilot nomi</label>
+    <textarea id="org" style="min-height:56px">TUMAN MAKTABGACHA VA MAKTAB TA'LIMI BO'LIMI</textarea>
+    <label for="orgaddr">Manzil va aloqa</label>
+    <input id="orgaddr" value="Manzil: ________, tel.: ________, e-mail: ________">
+  </fieldset>
+
+  <fieldset>
+    <legend>Xat rekvizitlari</legend>
+    <div class="row">
+      <div><label for="outno">Chiquvchi raqam</label><input id="outno" value="02-"></div>
+      <div><label for="outdate">Sana</label><input id="outdate" type="date"></div>
+    </div>
+    <div class="row">
+      <div><label for="inno">Murojaat raqami</label><input id="inno" placeholder="masalan: 1234"></div>
+      <div><label for="indate">Murojaat sanasi</label><input id="indate" type="date"></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Murojaatchi</legend>
+    <label for="fio">F.I.Sh.</label>
+    <input id="fio" placeholder="Familiya Ism Otasining ismi">
+    <label for="addr">Manzili</label>
+    <input id="addr" placeholder="Viloyat, tuman, ko'cha, uy">
+  </fieldset>
+
+  <fieldset>
+    <legend>Javob mazmuni</legend>
+    <label for="tpl">Shablon</label>
+    <select id="tpl">
+      <option value="ijobiy">Ijobiy hal qilindi</option>
+      <option value="tushuntirish">Tushuntirish berildi</option>
+      <option value="rad">Asossiz deb topildi</option>
+      <option value="boshqa">Bo'sh (o'zim yozaman)</option>
+    </select>
+    <label for="subject">Murojaat mavzusi</label>
+    <input id="subject" placeholder="masalan: farzandini maktabga qabul qilish">
+    <label for="body">Asosiy matn</label>
+    <textarea id="body"></textarea>
+    <div class="hint">Shablon tanlansa, matn avtomatik to'ldiriladi — keyin tahrirlashingiz mumkin.</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Imzo</legend>
+    <div class="row">
+      <div><label for="pos">Lavozim</label><input id="pos" value="Bo'lim mudiri"></div>
+      <div><label for="signer">F.I.Sh. (qisqa)</label><input id="signer" placeholder="I. Familiyev"></div>
+    </div>
+    <label for="exec">Ijrochi (pastki qism)</label>
+    <input id="exec" placeholder="Ijrochi: F. Ismi, tel.: ________">
+  </fieldset>
+
+  <div class="btns">
+    <button type="button" id="print">Chop etish / PDF</button>
+    <button type="button" class="ghost" id="reset">Tozalash</button>
+  </div>
+</form>
+
+<article class="paper" id="paper" aria-label="Xat ko'rinishi">
+  <div class="org" data-k="org"></div>
+  <div class="orgaddr" data-k="orgaddr"></div>
+  <div class="meta"><span>№ <b data-k="outno"></b></span><span data-k="outdateTxt"></span></div>
+  <div class="to" data-k="toTxt"></div>
+  <div class="body" id="bodyOut"></div>
+  <div class="sign"><span data-k="pos"></span><span data-k="signer"></span></div>
+  <div class="exec" data-k="exec"></div>
+</article>
+</main>
+
+<script>
+(function(){
+  const KEY = 'talim-raqamli:javob-xati';
+  const $ = id => document.getElementById(id);
+  const fields = ['org','orgaddr','outno','outdate','inno','indate','fio','addr','tpl','subject','body','pos','signer','exec'];
+  const months = ['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+
+  function fmtDate(v){
+    if(!v) return '«___» ________ 20__ y.';
+    const [y,m,d] = v.split('-').map(Number);
+    return `${y} yil ${d}-${months[m-1]}`;
+  }
+
+  function templates(d){
+    const ref = `Sizning ${d.indate ? fmtDate(d.indate) + 'dagi' : ''} ${d.inno ? d.inno + '-son ' : ''}murojaatingiz${d.subject ? ' (' + d.subject + ')' : ''}`.replace(/\s+/g,' ').trim();
+    return {
+      ijobiy: `${ref} ko'rib chiqildi.\nMurojaatingizda ko'tarilgan masala ijobiy hal etilganini ma'lum qilamiz. [Qanday chora ko'rilganini yozing.]\nQo'shimcha savollar bo'yicha yuqoridagi telefon raqami orqali murojaat qilishingiz mumkin.`,
+      tushuntirish: `${ref} ko'rib chiqildi.\nMurojaatingiz yuzasidan quyidagilarni tushuntiramiz: [amaldagi normativ-huquqiy hujjat va uning bandi, tartib].\nYuqoridagilardan kelib chiqib, [qanday harakat qilish kerakligini yozing].`,
+      rad: `${ref} ko'rib chiqildi.\nO'rganish natijalariga ko'ra, murojaatingizda ko'rsatilgan holatlar o'z tasdig'ini topmadi: [asoslarini yozing].\nShu sababli murojaatingizni qanoatlantirishning imkoni bo'lmadi. Ushbu javobdan norozi bo'lsangiz, qonunchilikda belgilangan tartibda yuqori turuvchi organga yoki sudga murojaat qilishingiz mumkin.`,
+      boshqa: ''
+    };
+  }
+
+  function read(){ const d={}; fields.forEach(k=>d[k]=$(k).value); return d; }
+
+  function render(){
+    const d = read();
+    const view = Object.assign({}, d, {
+      outdateTxt: fmtDate(d.outdate),
+      toTxt: [d.fio || 'F.I.Sh.', d.addr].filter(Boolean).join('\n') + 'ga'
+    });
+    document.querySelectorAll('#paper [data-k]').forEach(el => { el.textContent = view[el.dataset.k] || ''; });
+    const out = $('bodyOut'); out.innerHTML = '';
+    (d.body || '').split(/\n+/).filter(s=>s.trim()).forEach(par => {
+      const p = document.createElement('p'); p.textContent = par; out.appendChild(p);
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e){}
+  }
+
+  function applyTemplate(){
+    $('body').value = templates(read())[$('tpl').value];
+    render();
+  }
+
+  // restore
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e){}
+  if(saved){ fields.forEach(k => { if(saved[k] !== undefined) $(k).value = saved[k]; }); }
+  if(!$('outdate').value) $('outdate').value = new Date().toISOString().slice(0,10);
+  if(!$('body').value) applyTemplate();
+
+  $('f').addEventListener('input', e => {
+    if(['inno','indate','subject'].includes(e.target.id) && $('tpl').value !== 'boshqa' && !$('body').dataset.edited) { applyTemplate(); return; }
+    if(e.target.id === 'body') $('body').dataset.edited = '1';
+    render();
+  });
+  $('tpl').addEventListener('change', () => { delete $('body').dataset.edited; applyTemplate(); });
+  $('print').addEventListener('click', () => window.print());
+  $('reset').addEventListener('click', () => {
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    location.reload();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
