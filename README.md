@@ -12,12 +12,14 @@ o'rnatish, server yoki internet talab qilinmaydi, ma'lumotlar kompyuteringizdan 
 | Vosita | Holati | Tavsif |
 |---|---|---|
 | [Javob xati generatori](index.html) | ✅ Tayyor | Fuqarolar murojaatiga rasmiy javob xatini shakl orqali tayyorlaydi va chop etadi / PDF qiladi |
-| Bildirgi generatori | 🔜 Rejada | Ichki bildirgi (xizmat xati) shabloni |
+| [Bildirgi generatori](bildirgi.html) | ✅ Tayyor | Ichki bildirgi: adresat, mavzu, matn, raqamlangan ilovalar ro'yxati, imzo |
 | Murojaatlar reestri | 🔜 Rejada | Kelgan murojaatlarni ro'yxatga olish, muddatlarni kuzatish (CSV eksport) |
 
 ## Qanday ishlatiladi
 
-1. `index.html` faylini brauzerda oching (yoki loyihaning GitHub Pages sahifasiga kiring).
+**Onlayn:** https://sardorasatov93-code.github.io/talim-raqamli/
+
+1. Saytga kiring yoki `index.html` / `bildirgi.html` faylini brauzerda oching.
 2. Chap tomondagi shaklni to'ldiring: murojaatchi, murojaat raqami va sanasi, javob mazmuni.
 3. O'ng tomonda xat tayyor ko'rinishda chiqadi.
 4. **Chop etish / PDF** tugmasini bosing — brauzer oynasida "PDF sifatida saqlash"ni tanlang.

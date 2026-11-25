@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bildirgi generatori — Ta'lim raqamli</title>
+<style>
+  :root { --ink:#1d1d1b; --muted:#6b6b66; --line:#d9d6cf; --bg:#f6f4ef; --accent:#1f5f8b; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:16px 24px; border-bottom:1px solid var(--line); background:#fff; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  header h1 { font-size:18px; margin:0; }
+  header p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+  nav { display:flex; gap:14px; font-size:13px; }
+  nav a { color:var(--accent); text-decoration:none; }
+  nav a[aria-current] { font-weight:600; text-decoration:underline; }
+  main { display:grid; grid-template-columns:minmax(300px,420px) 1fr; gap:24px; padding:24px; max-width:1300px; margin:0 auto; }
+  form { background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px; align-self:start; }
+  fieldset { border:none; padding:0; margin:0 0 14px; }
+  legend { font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-bottom:8px; }
+  label { display:block; font-size:13px; margin:8px 0 4px; }
+  input, textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:6px; font:inherit; font-size:14px; background:#fff; }
+  textarea { min-height:70px; resize:vertical; }
+  #body { min-height:180px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .att { display:grid; grid-template-columns:1fr 70px 32px; gap:6px; margin-bottom:6px; }
+  .att button { padding:0; background:#fff; color:#a33; border-color:var(--line); }
+  .btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  button { padding:9px 14px; border-radius:6px; border:1px solid var(--accent); background:var(--accent); color:#fff; font:inherit; font-size:14px; cursor:pointer; }
+  button.ghost { background:#fff; color:var(--accent); }
+  .hint { font-size:12px; color:var(--muted); margin-top:4px; }
+  .paper { background:#fff; border:1px solid var(--line); box-shadow:0 2px 12px rgba(0,0,0,.06); width:210mm; max-width:100%; min-height:297mm; padding:20mm 15mm 20mm 25mm; font-family:"Times New Roman",Times,serif; font-size:14pt; line-height:1.4; justify-self:center; }
+  .paper .to { margin-left:55%; font-weight:bold; white-space:pre-line; margin-bottom:28px; }
+  .paper .title { text-align:center; font-weight:bold; letter-spacing:.12em; margin-bottom:4px; }
+  .paper .subject { text-align:center; font-style:italic; margin-bottom:18px; white-space:pre-line; }
+  .paper .body p { text-indent:1.25cm; text-align:justify; margin:0 0 8px; white-space:pre-line; }
+  .paper .attach { margin-top:12px; }
+  .paper .attach ol { margin:4px 0 0; padding-left:1.25cm; }
+  .paper .sign { display:flex; justify-content:space-between; align-items:flex-end; margin-top:36px; font-weight:bold; }
+  .paper .sign .pos { white-space:pre-line; }
+  .paper .foot { margin-top:48px; font-size:10pt; white-space:pre-line; }
+  @media (max-width:900px){ main{ grid-template-columns:minmax(0,1fr); } }
+  @media print {
+    @page { size:A4; margin:0; }
+    body { background:#fff; }
+    header, form { display:none; }
+    main { display:block; padding:0; }
+    .paper { border:none; box-shadow:none; width:auto; min-height:auto; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Bildirgi generatori</h1>
+    <p>Ta'lim raqamli · ochiq kodli · ma'lumotlar faqat brauzeringizda saqlanadi</p>
+  </div>
+  <nav>
+    <a href="index.html">Javob xati</a>
+    <a href="bildirgi.html" aria-current="page">Bildirgi</a>
+    <a href="https://github.com/sardorasatov93-code/talim-raqamli">GitHub</a>
+  </nav>
+</header>
+
+<main>
+<form id="f" autocomplete="off">
+  <fieldset>
+    <legend>Kimga</legend>
+    <label for="to">Adresat (lavozimi va F.I.Sh., jo'nalish kelishigida)</label>
+    <textarea id="to">Vazir o'rinbosari
+I. Familiyevga</textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>Mazmun</legend>
+    <label for="subject">Mavzu</label>
+    <input id="subject" placeholder="masalan: ... ijrosi to'g'risida">
+    <label for="body">Matn</label>
+    <textarea id="body">[Asos hujjat: qaror / buyruq / topshiriq — sanasi va raqami to'liq] ijrosini ta'minlash maqsadida quyidagi ishlar amalga oshirildi:
+[Bajarilgan ishlar.]
+[Natija va xulosa.]
+Yuqoridagilardan kelib chiqib, [so'ralayotgan qaror]ni so'rayman.</textarea>
+    <div class="hint">Har bir yangi qator — yangi xatboshi (abzats).</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Ilovalar</legend>
+    <div id="atts"></div>
+    <button type="button" class="ghost" id="addAtt">+ Ilova qo'shish</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Imzo</legend>
+    <label for="pos">Lavozim</label>
+    <textarea id="pos" style="min-height:56px">Boshqarma boshlig'i</textarea>
+    <label for="signer">F.I.Sh. (qisqa)</label>
+    <input id="signer" placeholder="I. Familiyev">
+    <div class="row">
+      <div><label for="date">Sana</label><input id="date" type="date"></div>
+      <div><label for="exec">Ijrochi</label><input id="exec" placeholder="F. Ismi, tel."></div>
+    </div>
+  </fieldset>
+
+  <div class="btns">
+    <button type="button" id="print">Chop etish / PDF</button>
+    <button type="button" class="ghost" id="reset">Tozalash</button>
+  </div>
+</form>
+
+<article class="paper" id="paper" aria-label="Bildirgi ko'rinishi">
+  <div class="to" data-k="to"></div>
+  <div class="title">BILDIRGI</div>
+  <div class="subject" data-k="subject"></div>
+  <div class="body" id="bodyOut"></div>
+  <div class="attach" id="attachOut"></div>
+  <div class="sign"><span class="pos" data-k="pos"></span><span data-k="signer"></span></div>
+  <div class="foot" data-k="foot"></div>
+</article>
+</main>
+
+<script>
+(function(){
+  const KEY = 'talim-raqamli:bildirgi';
+  const $ = id => document.getElementById(id);
+  const fields = ['to','subject','body','pos','signer','date','exec'];
+  const months = ['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+  let atts = [];
+
+  function fmtDate(v){
+    if(!v) return '';
+    const [y,m,d] = v.split('-').map(Number);
+    return `${y} yil ${d}-${months[m-1]}`;
+  }
+
+  function drawAtts(){
+    const box = $('atts'); box.innerHTML = '';
+    atts.forEach((a,i) => {
+      const row = document.createElement('div'); row.className = 'att';
+      const name = document.createElement('input'); name.placeholder = 'Hujjat nomi'; name.value = a.name;
+      const pages = document.createElement('input'); pages.type = 'number'; pages.min = 1; pages.placeholder = 'varaq'; pages.value = a.pages;
+      const del = document.createElement('button'); del.type = 'button'; del.textContent = '×'; del.title = "O'chirish";
+      name.oninput = () => { a.name = name.value; render(); };
+      pages.oninput = () => { a.pages = pages.value; render(); };
+      del.onclick = () => { atts.splice(i,1); drawAtts(); render(); };
+      row.append(name, pages, del); box.appendChild(row);
+    });
+  }
+
+  function render(){
+    const d = {}; fields.forEach(k => d[k] = $(k).value);
+    const view = Object.assign({}, d, { foot: [fmtDate(d.date), d.exec].filter(Boolean).join('\n') });
+    document.querySelectorAll('#paper [data-k]').forEach(el => { el.textContent = view[el.dataset.k] || ''; });
+
+    const out = $('bodyOut'); out.innerHTML = '';
+    d.body.split(/\n+/).filter(s => s.trim()).forEach(t => { const p = document.createElement('p'); p.textContent = t; out.appendChild(p); });
+
+    const ao = $('attachOut'); ao.innerHTML = '';
+    const list = atts.filter(a => a.name.trim());
+    if(list.length){
+      const b = document.createElement('b'); b.textContent = 'Ilova:'; ao.appendChild(b);
+      const ol = document.createElement('ol');
+      list.forEach(a => { const li = document.createElement('li'); li.textContent = `${a.name.trim()} nusxasi, ${a.pages || '_'} varaqda.`; ol.appendChild(li); });
+      ao.appendChild(ol);
+    }
+    try { localStorage.setItem(KEY, JSON.stringify({ d, atts })); } catch(e){}
+  }
+
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e){}
+  if(saved){ fields.forEach(k => { if(saved.d && saved.d[k] !== undefined) $(k).value = saved.d[k]; }); atts = saved.atts || []; }
+  if(!atts.length) atts = [{ name:'', pages:'' }];
+  if(!$('date').value) $('date').value = new Date().toISOString().slice(0,10);
+
+  $('f').addEventListener('input', render);
+  $('addAtt').addEventListener('click', () => { atts.push({ name:'', pages:'' }); drawAtts(); render(); });
+  $('print').addEventListener('click', () => window.print());
+  $('reset').addEventListener('click', () => { try { localStorage.removeItem(KEY); } catch(e){} location.reload(); });
+  drawAtts(); render();
+})();
+</script>
+</body>
+</html>
